@@ -19,7 +19,6 @@ public class Customer {
         return accounts;
     }
 
-
     public String getName() {
         return name;
     }
@@ -88,7 +87,7 @@ public class Customer {
         return String.format("$%,.2f", abs(d));
     }
 
-    // method to transfer accounts
+    // method to transfer money within accounts
     public void transfer(int amount, Account from, Account to) {
         from.withdraw(amount);
         to.deposit(amount);

@@ -30,12 +30,7 @@ public class Transaction {
         return numberOfDays;
     }
 
-
-
-    public void setTransactionDate(Date date) {
-        this.transactionDate = date;
-    }
-    public Date getTransactionDate(){
+    public Date getTransactionDate() {
         return transactionDate;
     }
 }

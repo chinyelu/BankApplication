@@ -21,16 +21,6 @@ public class Account {
         this.transactions = new ArrayList<Transaction>();
     }
 
-    //method to test a deposit at a certain date
-    public void testDepositAtDate(double amount, Date dateDeposited) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException("amount must be greater than zero");
-        } else {
-            transactions.add(new Transaction(amount));
-            transactions.get(transactions.size() - 1).setTransactionDate(dateDeposited);
-        }
-    }
-
     public void deposit(double amount) {
         if (amount <= 0) {
             throw new IllegalArgumentException("amount must be greater than zero");
@@ -49,8 +39,8 @@ public class Account {
 
     public double dailyInterestEarned() {
         //due to the fact that the rates given are yearly rates,
-        //i have divided them all by 365 so that they can compound
-        // accurately as the days go on throughout the year
+        //I have divided them all by 365 so that they can compound
+        //accurately as the days go on throughout the year
         double amount = sumTransactions();
         switch (accountType) {
             case SAVINGS:
@@ -83,12 +73,6 @@ public class Account {
         return timeElapsed;
     }
 
-    public int daysSinceAccountCreation() {
-        Date creationDate = transactions.get(0).getTransactionDate(); //the first transaction i.e. creation
-
-        int timeSinceCreation = (int) ((currentDate.getTime() - creationDate.getTime()) / Transaction.millisecondsInADay);
-        return timeSinceCreation;
-    }
 
     public double sumTransactions() {
         return checkIfTransactionsExist(true);

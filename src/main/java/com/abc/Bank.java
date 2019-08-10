@@ -45,22 +45,6 @@ public class Bank {
         }
     }
 
-    //this method denotes what the bank will have to do each day;
-    // add the interest and update their balance
-    public void dailySchedule() {
-
-        long day = 2000;//(365l * 86400000l);
-
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                accrueInterestDaily();
-                System.out.println("Interest Accrued\n" + interestAdded);
-            }
-        }, 0, day);
-    }
-
     public double accrueInterestDaily() {
 
         for (Customer c : customers) {
