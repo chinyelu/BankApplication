@@ -1,13 +1,10 @@
 package com.abc;
 
 import java.util.*;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Bank {
     private List<Customer> customers;
-    public double compoundInterest;
+    public double interestAdded;
 
     public Bank() {
         customers = new ArrayList<Customer>();
@@ -48,7 +45,10 @@ public class Bank {
         }
     }
 
+    //this method denotes what the bank will have to do each day;
+    // add the interest and update their balance
     public void dailySchedule() {
+
         long day = 2000;//(365l * 86400000l);
 
         Timer timer = new Timer();
@@ -56,7 +56,7 @@ public class Bank {
             @Override
             public void run() {
                 accrueInterestDaily();
-                System.out.println("Interest Accrued\n" + compoundInterest);
+                System.out.println("Interest Accrued\n" + interestAdded);
             }
         }, 0, day);
     }
@@ -65,10 +65,12 @@ public class Bank {
 
         for (Customer c : customers) {
             for (Account a : c.getAccounts()) {
-                compoundInterest += a.dailyInterestEarned();
+                interestAdded = a.dailyInterestEarned();
+                //input the interest into the correct account
+                a.deposit(interestAdded);
             }
         }
-        return compoundInterest;
+        return interestAdded;
 
     }
 

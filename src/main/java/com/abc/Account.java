@@ -57,7 +57,7 @@ public class Account {
                 if (amount <= 1000) {
                     return amount * (0.001 / daysInTheYear);
                 } else {
-                    return 1 + (amount - 1000) * (0.002 / daysInTheYear);
+                    return (1000 * (0.001 / daysInTheYear)) + (amount - 1000) * (0.002 / daysInTheYear);
                 }
 
             case MAXI_SAVINGS:

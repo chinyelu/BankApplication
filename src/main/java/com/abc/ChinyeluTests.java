@@ -32,9 +32,9 @@ public class ChinyeluTests {
         double depositAmount = 3000;
         maxSavings.testDepositAtDate(depositAmount, myDate);
 
+        System.out.println("yhuh" + 100 * (0.001 / 365));
+
         b.dailySchedule();
-
-
 
 
 
