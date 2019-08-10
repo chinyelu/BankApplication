@@ -1,34 +1,42 @@
 package com.abc;
 
-import java.util.Scanner;
+import java.util.*;
+import java.util.spi.CalendarDataProvider;
 
 public class ChinyeluTests {
 
-	public static void main(String[] Args) {
+    public static void main(String[] Args) {
 
-		Account Savings = new Account(Account.SAVINGS);
-		Account Checkings = new Account(Account.CHECKING);
+        Bank b = new Bank();
+        Account maxSavings = new Account(Account.MAXI_SAVINGS);
 
-		Customer Chinyelu = new Customer("Chinyelu");
-		Chinyelu.openAccount(Savings);
-		Chinyelu.openAccount(Checkings);
 
-		Savings.deposit(5000);
-		Savings.withdraw(20);
-		Checkings.withdraw(2000);
-		Checkings.deposit(301);
+        Customer Chinyelu = new Customer("Chinyelu");
+        Chinyelu.openAccount(maxSavings);
 
-		System.out.println(Chinyelu.getStatement());
+        b.addCustomer(Chinyelu);
 
-		System.out.println("===============================");
-		Chinyelu.transfer(2050, Savings, Checkings);
-		System.out.println("===============================");
 
-		Scanner scan = new Scanner(System.in);
-		System.out.println("\npress any key to continue... ");
-		scan.hasNext();
+        long todayMillis = DateProvider.getInstance().now().getTime();
 
-		Chinyelu.lastTransaction();
-		scan.close();
-	}
+        //manufacture a date a year ago to deposit an amount
+        Calendar myCalendar = Calendar.getInstance();
+
+        long year = (11l * 86400000l);
+        myCalendar.setTimeInMillis(todayMillis - year);
+        Date myDate = myCalendar.getTime();
+
+        System.out.println("YEAR AGO: " + myDate);
+
+        //deposit money at that date
+        double depositAmount = 3000;
+        maxSavings.testDepositAtDate(depositAmount, myDate);
+
+        b.dailySchedule();
+
+
+
+
+
+    }
 }

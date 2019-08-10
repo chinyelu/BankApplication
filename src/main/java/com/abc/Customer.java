@@ -6,94 +6,100 @@ import java.util.List;
 import static java.lang.Math.abs;
 
 public class Customer {
-	private String name;
-	private List<Account> accounts;
-	public Transaction transactionMade;
+    private String name;
+    private List<Account> accounts;
+    public Transaction transactionMade;
 
-	public Customer(String name) {
-		this.name = name;
-		this.accounts = new ArrayList<Account>();
-	}
+    public Customer(String name) {
+        this.name = name;
+        this.accounts = new ArrayList<Account>();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public List<Account> getAccounts() {
+        return accounts;
+    }
 
-	public Customer openAccount(Account account) {
-		accounts.add(account);
-		return this;
-	}
 
-	public int getNumberOfAccounts() {
-		return accounts.size();
-	}
+    public String getName() {
+        return name;
+    }
 
-	public double totalInterestEarned() {
-		double total = 0;
-		for (Account a : accounts)
-			total += a.interestEarned();
-		return total;
-	}
+    public Customer openAccount(Account account) {
+        accounts.add(account);
+        return this;
+    }
 
-	public String getStatement() {
-		String statement = null;
-		statement = "Statement for " + name + "\n";
-		double total = 0.0;
-		for (Account a : accounts) {
-			statement += "\n" + statementForAccount(a) + "\n";
-			total += a.sumTransactions();
-		}
-		statement += "\nTotal In All Accounts " + toDollars(total);
+    public int getNumberOfAccounts() {
+        return accounts.size();
+    }
 
-		return statement;
-	}
+    public double totalInterestEarned() {
+        double total = 0;
+        for (Account a : accounts)
+            total += a.dailyInterestEarned();
+        return total;
+    }
 
-	private String statementForAccount(Account a) {
-		String s = "";
+    public String getStatement() {
+        String statement = null;
+        statement = "Statement for " + name + "\n";
+        double total = 0.0;
+        for (Account a : accounts) {
+            statement += "\n" + statementForAccount(a) + "\n";
+            total += a.sumTransactions();
+        }
+        statement += "\nTotal In All Accounts " + toDollars(total);
 
-		// Translate to pretty account type
-		switch (a.getAccountType()) {
-		case Account.CHECKING:
-			s += "Checking Account\n";
-			break;
-		case Account.SAVINGS:
-			s += "Savings Account\n";
-			break;
-		case Account.MAXI_SAVINGS:
-			s += "Maxi Savings Account\n";
-			break;
-		}
+        return statement;
+    }
 
-		// Now total up all the transactions
-		double total = 0.0;
-		for (Transaction t : a.transactions) {
-			s += "  " + (t.amount < 0 ? "withdrawal" : "deposit") + " " + toDollars(t.amount) + "\n";
-			total += t.amount;
-		}
-		if (total < 0) {
-			s += "Total " + toDollars(total) + " Overdrawn";
-		} else {
-			s += "Total " + toDollars(total);
-		}
-		return s;
+    private String statementForAccount(Account a) {
+        String s = "";
 
-	}
+        // Translate to pretty account type
+        switch (a.getAccountType()) {
+            case Account.CHECKING:
+                s += "Checking Account\n";
+                break;
+            case Account.SAVINGS:
+                s += "Savings Account\n";
+                break;
+            case Account.MAXI_SAVINGS:
+                s += "Maxi Savings Account\n";
+                break;
+        }
 
-	private String toDollars(double d) {
-		return String.format("$%,.2f", abs(d));
-	}
+        // Now total up all the transactions
+        double total = 0.0;
+        for (Transaction t : a.transactions) {
+            s += "  " + (t.amount < 0 ? "withdrawal" : "deposit") + " " + toDollars(t.amount) + "\n";
+            total += t.amount;
+        }
+        if (total < 0) {
+            s += "Total " + toDollars(total) + " Overdrawn";
+        } else {
+            s += "Total " + toDollars(total);
+        }
+        return s;
 
-	// method to transfer accounts
-	public void transfer(int amount, Account from, Account to) {
-		from.withdraw(amount);
-		to.deposit(amount);
-		transactionMade = new Transaction(amount);
-		System.out.println("$" + amount + " has been tranferred to the account " + this.getStatement());
+    }
 
-	}
-	//method to check elapsed time since last transaction
-	public void lastTransaction() {
-		transactionMade.timeSinceLastTrasation();
-		
-	}
+    private String toDollars(double d) {
+        return String.format("$%,.2f", abs(d));
+    }
+
+    // method to transfer accounts
+    public void transfer(int amount, Account from, Account to) {
+        from.withdraw(amount);
+        to.deposit(amount);
+        transactionMade = new Transaction(amount);
+        System.out.println("$" + amount + " has been tranferred to the account " + this.getStatement());
+
+    }
+
+    //method to check elapsed time since last transaction
+    public void lastTransaction() {
+        transactionMade.ageOfThisTransaction();
+
+    }
 }
